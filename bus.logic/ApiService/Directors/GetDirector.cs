@@ -7,7 +7,7 @@ using bus.logic.ApiService.Url;
 
 namespace bus.logic.ApiService.Directors
 {
-    internal class GetNoteDirector: IQueryDirector
+    internal class GetNoteDirector: IQueryDirector<Note>
     {
         readonly string BaseUrl;
         UrlBuilder builder;

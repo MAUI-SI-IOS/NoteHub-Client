@@ -1,6 +1,6 @@
 ﻿namespace bus.logic
 {
-    public class Class1
+    public class Note
     {
 
     }

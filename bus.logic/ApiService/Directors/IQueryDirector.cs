@@ -5,7 +5,7 @@ using System.Text;
 
 namespace bus.logic.ApiService.Directors
 {
-    public interface IQueryDirector
+    public interface IQueryDirector<T>
     {
         Request MakeQuery();
     }

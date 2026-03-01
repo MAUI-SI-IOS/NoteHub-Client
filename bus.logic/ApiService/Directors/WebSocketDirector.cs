@@ -1,28 +1,26 @@
-﻿using System;
+﻿using bus.logic.ApiService.Url;
+using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Runtime.Serialization;
 using System.Text;
-using bus.logic.ApiService.Url;
 
 namespace bus.logic.ApiService.Directors
 {
-    internal class PostNoteDirector: IQueryDirector<Note>
+    public class WebSocketDirector: IQueryDirector<ClientWebSocket>
     {
         readonly string BaseUrl;
         UrlBuilder builder;
-        ISerializable body;
 
-        public PostNoteDirector(ISerializable body)
+        public WebSocketDirector()
         {
             this.builder = new UrlBuilder();
-            this.body = body;
         }
 
         public Request MakeQuery()
         {
-            return builder.BuildType("POST")
-                          .BuildUri(BaseUrl+"")
-                          .buildBody(body)
+            return builder.BuildType("WS")
+                          .BuildUri(BaseUrl + "")
                           .build();
         }
     }

@@ -1,8 +1,11 @@
 ﻿using bus.logic.ApiService.Directors;
 using bus.logic.ApiService.Url;
+using bus.logic.ApiService.UrlBuilder;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Json;
+using System.Net.WebSockets;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
@@ -23,20 +26,24 @@ namespace bus.logic.ApiService
             };
         }
 
+
+
+
         /// <summary>
         /// Sends a request to server
         /// </summary>
         /// <typeparam name="T">will cast T into the response object</typeparam>
         /// <returns>Task<T></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<T> Send<T>(IQueryDirector director)
+        public async Task<T> Send<T>(IQueryDirector<T> director)
         {
             var query = director.MakeQuery();
             return query.Type switch
             {
                 "GET"  => await Get<T>(query),
                 "POST" => await Post<T>(query),
-                _      => throw new Exception()
+                "WS"   => await ConnectWebSocket<T>(query),
+                _ => throw new Exception()
             }; 
         }
 
@@ -67,6 +74,13 @@ namespace bus.logic.ApiService
             {
                 throw new Exception();
             }
+        }
+
+        private async Task<ClientWebSocket> ConnectWebSocketd(Request query)
+        {
+            var client = new ClientWebSocket();
+            await client.ConnectAsync(new Uri(query.Uri), CancellationToken.None);
+            return client;
         }
     }
 }
