@@ -9,9 +9,8 @@ using System.Text.Json;
 
 namespace bus.logic.ApiService
 {
-    internal class Api
+    public class Api
     {
-        IQueryDirector director;
         HttpClient _client;
         JsonSerializerOptions _serializerOptions;
 
@@ -24,7 +23,13 @@ namespace bus.logic.ApiService
             };
         }
 
-        public async Task<T> Send<T>()
+        /// <summary>
+        /// Sends a request to server
+        /// </summary>
+        /// <typeparam name="T">will cast T into the response object</typeparam>
+        /// <returns>Task<T></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<T> Send<T>(IQueryDirector director)
         {
             var query = director.MakeQuery();
             return query.Type switch

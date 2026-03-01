@@ -20,7 +20,7 @@ namespace bus.logic.ApiService.Directors
 
         public Request MakeQuery()
         {
-            return builder.BuildType("GET")
+            return builder.BuildType("POST")
                           .BuildUri(BaseUrl+"")
                           .buildBody(body)
                           .build();
