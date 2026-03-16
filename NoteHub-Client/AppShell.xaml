@@ -4,11 +4,28 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:NoteHub_Client"
-    Title="NoteHub_Client">
+    Title="NoteHub_Client"
+    FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="20" BackgroundColor="#F0F0F0">
+            <Label Text="NoteHub" FontSize="24" FontAttributes="Bold" TextColor="Black" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
 
+    <FlyoutItem Title="Write a Note" Icon="appicon.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Search a Note">
+        <ShellContent ContentTemplate="{DataTemplate local:SearchPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="login" Icon="appicon.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
 </Shell>
