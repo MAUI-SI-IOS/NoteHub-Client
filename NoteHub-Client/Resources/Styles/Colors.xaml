@@ -6,12 +6,29 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Seed">#8FA998</Color>
+
+    <Color x:Key="Primary">#A67C00</Color>
+    <Color x:Key="PrimaryText">Black</Color>
+    <Color x:Key="Secondary">#A0522D</Color>
+    <Color x:Key="SecondaryText">White</Color>
+    <Color x:Key="Tertiary">#6B8E23</Color>
+    <Color x:Key="TertiaryText">White</Color>
+    <Color x:Key="Neutral">#F5F5DC</Color>
+    <Color x:Key="NeutralText">Black</Color>
+
+    <Color x:Key="SeedDark">#1a2f23</Color>
+    
+    <Color x:Key="PrimaryDark">#4f7942</Color>
+    <Color x:Key="PrimaryDarkText">White</Color>
+    <Color x:Key="SecondaryDark">#A0522D</Color>
+    <Color x:Key="SecondaryDarkText">White</Color>
+    <Color x:Key="TertiaryDark">#D4AF37</Color>
+    <Color x:Key="TertiaryDarkText">Black</Color>
+    <Color x:Key="NeutralDark">#1A2F23</Color>
+    <Color x:Key="NeutralDarkText">White</Color>
+
+
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -31,6 +48,9 @@
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}"/>
+    <SolidColorBrush x:Key="SecondaryDarkBrush" Color="{StaticResource SecondaryDark}"/>
+    <SolidColorBrush x:Key="TertiaryDarkBrush" Color="{StaticResource TertiaryDark}"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
 

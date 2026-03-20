@@ -6,4 +6,6 @@ public partial class NoteDetailPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+	public void OnNoteSelected(object sender, EventArgs e) { }
 }
