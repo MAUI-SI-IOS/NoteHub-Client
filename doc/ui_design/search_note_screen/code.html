@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search - NoteHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#76320f",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#203529",
+                        "on-tertiary-container": "#4e3d00",
+                        "secondary-fixed-dim": "#ffb596",
+                        "tertiary-container": "#cba72f",
+                        "surface-container-low": "#0a2014",
+                        "on-primary-fixed": "#022100",
+                        "on-secondary-fixed": "#360f00",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-container-highest": "#24392d",
+                        "surface-variant": "#24392d",
+                        "surface-dim": "#03170d",
+                        "tertiary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error": "#690005",
+                        "on-primary-container": "#719d62",
+                        "on-secondary-fixed-variant": "#76320f",
+                        "on-tertiary": "#3c2f00",
+                        "on-primary-fixed-variant": "#28501e",
+                        "primary-fixed-dim": "#a4d393",
+                        "surface": "#03170d",
+                        "inverse-primary": "#3f6833",
+                        "surface-container-high": "#192e22",
+                        "primary-fixed": "#c0f0ad",
+                        "on-secondary-container": "#fd9d71",
+                        "outline-variant": "#424843",
+                        "secondary": "#ffb596",
+                        "primary-container": "#0a3204",
+                        "on-primary": "#113809",
+                        "tertiary": "#e9c349",
+                        "on-surface": "#d0e9d6",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#001208",
+                        "surface-tint": "#a4d393",
+                        "surface-bright": "#283e31",
+                        "on-surface-variant": "#c2c8c2",
+                        "on-background": "#d0e9d6",
+                        "inverse-surface": "#d0e9d6",
+                        "surface-container": "#0f2418",
+                        "background": "#03170d",
+                        "outline": "#8c928c",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#a4d393",
+                        "secondary-fixed": "#ffdbcd",
+                        "on-secondary": "#581e00",
+                        "on-tertiary-fixed-variant": "#574500"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-secondary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#1A2F23] dark:bg-[#0A1208] bg-gradient-to-b from-[#1A2F23] to-transparent">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdRcTpGgZB8u4vDLmFZpSSbq8rY4jGCNNj-KmKMLA9uDZU0YRucGeAOrkyLD9OSrdIktfhBsW2qOEPqriIUgp9EiAEQz0h4Y1xbaLQIC6OOmQvh0nETRq8Gr5L2lr4ht2JH0wgmmZk3e878ffAFnM5LpvA3gIsL-3CfX5n6k6eorH-MPFdLU9CITJ8UMYIfmUwDqs8OKWJ90mrEvAgqTdbrb-lwm_lEbSOVQD_t6BUWnRlxTUm7vnaN1aVNDEH_r52p-WRdLw4m4by"/>
+</div>
+<h1 class="font-['Manrope'] tracking-[-0.02em] font-bold text-on-surface text-xl tracking-tight text-[#f0f2ee]">NoteHub</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-[#a4d393] hover:bg-[#a4d393]/10 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-4xl mx-auto min-h-screen">
+<!-- Editorial Header Section -->
+<section class="mb-10 mt-8">
+<h2 class="text-4xl font-extrabold tracking-tight mb-2 text-on-surface">Explore Archive</h2>
+<p class="text-on-surface-variant/80 font-medium">Sift through your collective consciousness.</p>
+</section>
+<!-- Search Bar Section -->
+<div class="relative group mb-8">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+</div>
+<input class="w-full bg-surface-container-high border-none rounded-xl py-5 pl-14 pr-6 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-primary/20 transition-all shadow-lg shadow-surface-container-lowest/40" placeholder="Search titles, content, or tags..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-3 overflow-x-auto pb-4 no-scrollbar mb-10">
+<button class="px-5 py-2 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-sm flex items-center gap-2 whitespace-nowrap active:scale-95 transition-transform" style="background: #CD7F32; color: #112318;">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">history</span>
+                Recent
+            </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant border border-outline-variant/10 font-semibold text-sm hover:bg-surface-container-highest transition-colors whitespace-nowrap">
+                Favorites
+            </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant border border-outline-variant/10 font-semibold text-sm hover:bg-surface-container-highest transition-colors whitespace-nowrap">
+                Tags
+            </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant border border-outline-variant/10 font-semibold text-sm hover:bg-surface-container-highest transition-colors whitespace-nowrap">
+                Shared
+            </button>
+</div>
+<!-- Search Results -->
+<div class="space-y-6">
+<!-- Result Card 1 -->
+<div class="bg-surface-container-high rounded-xl p-6 transition-all hover:translate-y-[-2px] hover:shadow-xl group">
+<div class="flex justify-between items-start mb-3">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-widest uppercase">Priority</span>
+<span class="text-xs font-medium text-tertiary">Oct 24, 2023</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">The Ecology of Digital Memory</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-2 mb-4">How we structure information today mirrors the mycelial networks of the forest floor. Data is rarely isolated; it thrives in connection...</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[11px] font-medium">#research</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[11px] font-medium">#ecology</span>
+</div>
+</div>
+<!-- Result Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-6 transition-all hover:translate-y-[-2px] hover:shadow-xl group">
+<div class="flex justify-between items-start mb-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-bold tracking-widest uppercase">Draft</span>
+<span class="text-xs font-medium text-tertiary">Oct 21, 2023</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Morning Reflections: Silence</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-2 mb-4">Woke up to the sound of rain against the cedar shingles. There is a specific kind of productivity that only comes from quiet contemplation...</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[11px] font-medium">#journal</span>
+</div>
+</div>
+<!-- Result Card 3 -->
+<div class="bg-surface-container-high rounded-xl p-6 transition-all hover:translate-y-[-2px] hover:shadow-xl group">
+<div class="flex justify-between items-start mb-3">
+<span class="px-3 py-1 rounded-full bg-on-tertiary-fixed-variant text-tertiary-fixed text-[10px] font-bold tracking-widest uppercase">Archive</span>
+<span class="text-xs font-medium text-tertiary">Sep 15, 2023</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Project: Evergreen UI Kit</h3>
+<p class="text-on-surface-variant leading-relaxed line-clamp-2 mb-4">Comprehensive audit of existing color tokens. Moving toward a more organic palette that reduces eye strain for long-form writing...</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[11px] font-medium">#design</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant text-[11px] font-medium">#work</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#1A2F23]/80 backdrop-blur-xl border-t border-[#f0f2ee]/10 shadow-[0px_-10px_30px_rgba(0,18,8,0.4)]">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3">
+<!-- Notes -->
+<a class="flex flex-col items-center justify-center text-[#f0f2ee]/60 px-4 py-1.5 hover:text-[#a4d393] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="description">description</span>
+<span class="font-['Manrope'] text-[11px] font-medium tracking-wide">Notes</span>
+</a>
+<!-- Search (Active) -->
+<a class="flex flex-col items-center justify-center rounded-xl px-4 py-1.5 active:scale-90 duration-150" href="#" style="background-color: #CD7F32; color: #112318;">
+<span class="material-symbols-outlined mb-1" data-icon="search" data-weight="fill" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-['Manrope'] text-[11px] font-medium tracking-wide">Search</span>
+</a>
+<!-- Drafts -->
+<a class="flex flex-col items-center justify-center text-[#f0f2ee]/60 px-4 py-1.5 hover:text-[#a4d393] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="edit_note">edit_note</span>
+<span class="font-['Manrope'] text-[11px] font-medium tracking-wide">Drafts</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-[#f0f2ee]/60 px-4 py-1.5 hover:text-[#a4d393] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-['Manrope'] text-[11px] font-medium tracking-wide">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Floating Atmosphere Accents (Design System Tonal Layering) -->
+<div class="fixed top-[20%] right-[-5%] w-64 h-64 bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="fixed bottom-[10%] left-[-10%] w-96 h-96 bg-tertiary/5 blur-[140px] rounded-full pointer-events-none"></div>
+</body></html>

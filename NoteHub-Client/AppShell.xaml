@@ -23,6 +23,10 @@
         <ShellContent ContentTemplate="{DataTemplate local:SearchPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Select connected server">
+        <ShellContent ContentTemplate="{DataTemplate local:ServerSelectionPage}" />
+    </FlyoutItem>
+
     <FlyoutItem Title="login" Icon="appicon.png">
         <ShellContent
             ContentTemplate="{DataTemplate local:MainPage}"
