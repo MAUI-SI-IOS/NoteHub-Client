@@ -23,7 +23,8 @@ namespace NoteHub_Client.test.Testcontainers
                 .Build();
 
             db = new PostgreSqlBuilder("postgres:latest")
-                .WithAutoRemove(true)
+                .WithAutoRemove(true) // use docker --rm flag, might endup creating zombie container if dispose is never called
+                .WithCleanUp(true) // spinup  a monitoring container that will kill the container if the tests stops running
                 .WithNetwork(network)
                 .WithDatabase(DATABASE_NAME)
                 .WithUsername(DATABASE_USER)
@@ -33,6 +34,7 @@ namespace NoteHub_Client.test.Testcontainers
             api = new ContainerBuilder("ghcr.io/maui-si-ios/notehub-server:latest")
                 .WithImagePullPolicy(_ => true)
                 .WithAutoRemove(true)
+                .WithCleanUp(true)
                 .WithNetwork(network)
                 .WithEnvironment("POSTGRES_HOST", db.Hostname)
                 .WithEnvironment("POSTGRES_DB", DATABASE_NAME)
