@@ -56,5 +56,7 @@ namespace NoteHub_Client.test.Testcontainers
             await db.StartAsync();
             await api.StartAsync();
         }
+
+        public string ApiBaseUrl => $"http://localhost:{api.GetMappedPublicPort(8080)}";
     }
 }
