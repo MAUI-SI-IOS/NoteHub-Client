@@ -63,6 +63,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
+		<ProjectReference Include="..\bus.logic\bus.logic.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -74,7 +75,6 @@
 	  </MauiXaml>
 	  <MauiXaml Update="ServerSelectionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+	  </MauiXaml>		
 	</ItemGroup>
-
 </Project>
