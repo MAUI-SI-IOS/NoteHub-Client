@@ -1,8 +1,7 @@
 ﻿
-
+using bus.logic.Result;
 using bus.logic.ApiService;
 using bus.logic.ApiService.Directors;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace bus.logic.service
@@ -14,15 +13,16 @@ namespace bus.logic.service
         {
             api = new Api(client);
         }
-
-        public Task<List<Note>> GetNotes()
+        
+        public async Task<Result<List<Note>,Exception>> SearchNote(string token)
         {
-            return api.Send(new GetDirector<List<Note>>("/note/"));
+            return await api.Send(new GetDirector<List<Note>>($"/token/{token}"));
+                            
         }
 
-        public Task<Note> GetNoteByTitle(string title)
+        public Task<Result<Note, Exception>> GetNoteByTitle(string title)
         {
-            return api.Send(new GetDirector<Note>("note/title/" + title));
+            return api.Send(new GetDirector<Note>($"note/title/{title}"));
         }
 
 
