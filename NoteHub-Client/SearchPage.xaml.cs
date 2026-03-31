@@ -56,7 +56,7 @@ public partial class SearchPage : ContentPage
                     },
                     err: (err) =>
                     {
-                        StatusMessage = err.Message;
+                        StatusMessage = err;
                         NotesListView.ItemsSource = null;
                     }
                 );
