@@ -22,8 +22,8 @@ public static class FunctionnalResult
             ? Result<T, T2Error>.Failure(map(result.Error))
             : Result<T, T2Error>.Success(result.Value);
 
-    public static void Match<T, TError>(
-        this Result<T, TError> result, Action<T> ok, Action<TError> err)
+    public static void Match<T, TError>
+        (this Result<T, TError> result, Action<T> ok, Action<TError> err)
     {
         if (result.IsSuccess)
         {
