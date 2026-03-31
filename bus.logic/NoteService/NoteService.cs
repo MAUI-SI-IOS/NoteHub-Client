@@ -1,46 +1,79 @@
 ﻿
-using bus.logic.Result;
 using bus.logic.ApiService;
 using bus.logic.ApiService.Directors;
+using bus.logic.Result;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace bus.logic.service
 {
     public class NoteService
     {
-        Api api;
+        HttpClient _client;
+        JsonSerializerOptions _options;
         public NoteService(HttpClient client)
         {
-            api = new Api(client);
+            this._client = client;
+            this._options = new JsonSerializerOptions { 
+                
+            };
         }
         
-        public async Task<Result<List<Note>,Exception>> SearchNote(string token)
+        public async Task<Result<List<Note>,string>> SearchNote(string token)
         {
-            return await api.Send(new GetDirector<List<Note>>($"/token/{token}"));
-                            
+            var task = await new GetStrategy<List<Note>>(_client, $"/token/{token}", _options)
+                        .DoQuery();
+            return task.MapErr((err) => err.code switch
+            {
+                0 => "No connection was found", //httpRequestException retourn 0 quand il n'a pas de connection
+                _ => "Internal Server Error, pls try in a bit",
+            });                  
         }
 
-        public async Task<Result<Note, Exception>> GetNoteByTitle(string title)
+        public async Task<Result<Note, string>> GetNoteByTitle(string title)
         {
-            return await api.Send(new GetDirector<Note>($"/note/title/{title}"));
+            var task = await new GetStrategy<Note>(_client, $"/note/title/{title}", _options)
+                        .DoQuery();
+            return task.MapErr((err) => err.code switch
+            {
+                0 => "No connection was found", //httpRequestException retourn 0 quand il n'a pas de connection
+                _ => "Internal Server Error, pls try in a bit",
+            });
         }
 
 
-        public async Task<Result<Unit,Exception>> AddNote(string title, string note)
+        public async Task<Result<Note,string>> CreateUpdateNote(long? id,string title, string note)
         {
-            return await api.Send(new PostNoteDirector<Unit>($"/note",new Note (title, note)));
-        }
+            if (id == null)
+            {
+                var task = await new PostStrategy<Note, Note>(_client, $"/note", new Note(title, note), _options)
+                            .DoQuery();
 
-        //public void UpdateNote()
-        //{
-        //return api.Send<Note>(new PatchNoteDirector());
-        //}
+                return task.MapErr((err) => err.code switch
+                {
+                    0 => "No connection was found", //httpRequestException retourn 0 quand il n'a pas de connection
+                    _ => "Internal Server Error, pls try in a bit",
+                });
+            }
+            else
+            {
+                var task = await new PatchStrategy<Note, Note>(_client, $"/note", new Note(title, note, id), _options)
+                .DoQuery();
+
+                return task.MapErr((err) => err.code switch
+                {
+                    0 => "No connection was found", //httpRequestException retourn 0 quand il n'a pas de connection
+                    _ => "Internal Server Error, pls try in a bit",
+                });
+            }
+        }
     }
 
 
     public class Note
     {
-        [JsonPropertyName("id")]
+        [JsonPropertyName("id")]  
         public long? Id { get; set; } // Matches Long? = null
 
         [JsonPropertyName("title")]
@@ -52,11 +85,12 @@ namespace bus.logic.service
         [JsonPropertyName("formattedContent")] // WAS formated_content (Fixed spelling + case)
         public string FormattedContent { get; set; }
 
-        public Note(string title, string note)
+        public Note(string title, string note, long? id = null)
         {
             Title = title;
             RawContent = note;
             FormattedContent = note;
+            Id = id;
         }
     }
 }
