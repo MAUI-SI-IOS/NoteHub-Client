@@ -55,6 +55,8 @@ namespace bus.logic.ApiService
             {
                 var response = await _client.GetAsync(query.Uri)
                     ?? throw new Exception();
+                response.EnsureSuccessStatusCode();
+
                 //try to read the content else it returns null instead of crashing
                 var data = await response.Content.ReadFromJsonAsync<T>()
                     ?? throw new Exception("Internal Error, couldn't parse response");
@@ -72,9 +74,24 @@ namespace bus.logic.ApiService
             {
                 var response = await _client.PostAsJsonAsync(query.Uri,query.Body,_serializerOptions)                  
                     ?? throw new Exception();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine("********** FULL ERROR START **********");
+
+                    // Break the string into chunks so the IDE doesn't truncate the line
+                    int chunkSize = 100;
+                    for (int i = 0; i < errorBody.Length; i += chunkSize)
+                    {
+                        if (i + chunkSize > errorBody.Length) chunkSize = errorBody.Length - i;
+                        System.Diagnostics.Debug.WriteLine(errorBody.Substring(i, chunkSize));
+                    }
+                    throw new HttpRequestException($"Server returned {response.StatusCode}");
+                }
 
                 var data = await response.Content.ReadFromJsonAsync<T>()
                    ?? throw new Exception("Internal Error, couldn't parse response");
+
                 return Result<T, Exception>.Success(data);
             }
             catch(Exception e)

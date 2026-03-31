@@ -20,15 +20,15 @@ namespace bus.logic.service
                             
         }
 
-        public Task<Result<Note, Exception>> GetNoteByTitle(string title)
+        public async Task<Result<Note, Exception>> GetNoteByTitle(string title)
         {
-            return api.Send(new GetDirector<Note>($"note/title/{title}"));
+            return await api.Send(new GetDirector<Note>($"/note/title/{title}"));
         }
 
 
-        public void AddNote(Note note)
+        public async Task<Result<Unit,Exception>> AddNote(string title, string note)
         {
-            api.Send(new PostNoteDirector<Note>(note));
+            return await api.Send(new PostNoteDirector<Unit>($"/note",new Note (title, note)));
         }
 
         //public void UpdateNote()
@@ -41,10 +41,22 @@ namespace bus.logic.service
     public class Note
     {
         [JsonPropertyName("id")]
-        string? id;
+        public long? Id { get; set; } // Matches Long? = null
+
         [JsonPropertyName("title")]
-        string title;
-        [JsonPropertyName("raw_content")]
-        string RawContent;
+        public string Title { get; set; } // Matches val title: String
+
+        [JsonPropertyName("rawContent")] // WAS raw_content (Fixed to camelCase)
+        public string RawContent { get; set; }
+
+        [JsonPropertyName("formattedContent")] // WAS formated_content (Fixed spelling + case)
+        public string FormattedContent { get; set; }
+
+        public Note(string title, string note)
+        {
+            Title = title;
+            RawContent = note;
+            FormattedContent = note;
+        }
     }
 }
