@@ -4,7 +4,11 @@
              x:Class="NoteHub_Client.MainPage"
              BackgroundColor="White">
     <VerticalStackLayout Padding="10,10" Spacing="30">
- 
+        <Label x:Name="ErrorText"
+               HeightRequest="1" 
+               InputTransparent="True" />
+
+       
         <Editor x:Name="TitleEditor"
                     Placeholder="Titre sans nom"
                     PlaceholderColor="#D1D1D1"
@@ -38,6 +42,20 @@
                 VerticalOptions="Center" 
                 Margin="0,0,10,0"
                 Clicked="SaveBtnClick"/>
+        <Button 
+        x:Name="NewNoteBtn"
+        Text="New Note"
+        HeightRequest="40"
+        WidthRequest="150"
+        BackgroundColor="#D1D1D1"
+        TextColor="#404040" 
+        FontAttributes="Bold"
+        FontSize="12"
+        CornerRadius="20" 
+        Opacity="0.8" 
+        VerticalOptions="Center" 
+        Margin="0,0,10,0"
+        Clicked="NewNoteBtnClick"/>
 
     </VerticalStackLayout>
 </ContentPage>

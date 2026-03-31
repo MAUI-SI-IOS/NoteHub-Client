@@ -63,7 +63,7 @@ public partial class SearchPage : ContentPage
             }
         }
         catch (OperationCanceledException) { }//do nothing
-        catch (Exception ex) { StatusMessage = "Something went wrong. Please check your connection."; }
+        catch { StatusMessage = "Something went wrong. Please check your connection."; }
     }
 
 

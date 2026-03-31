@@ -1,16 +1,17 @@
 ﻿using bus.logic.ApiService;
-using bus.logic.service;
 using bus.logic.Result;
-using System.Diagnostics;
+using bus.logic.service;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using System.Diagnostics;
+using static Android.Provider.ContactsContract.CommonDataKinds;
 
 namespace NoteHub_Client
 {
     public partial class MainPage : ContentPage
     {
-
         NoteService service;
+        long? id = null;
         public MainPage()
         {
             var client = new HttpClient { BaseAddress = new Uri("http://10.0.2.2:8080") };
@@ -27,7 +28,7 @@ namespace NoteHub_Client
         {
             //validation de string
             string title = TitleEditor.Text;
-            string note = NoteEditor.Text;
+            string note  = NoteEditor.Text;
             if(String.IsNullOrEmpty(title) 
                 || String.IsNullOrEmpty(note))
             {
@@ -37,19 +38,17 @@ namespace NoteHub_Client
             //logic de la fonction
             try
             {
-                var action = await this.service.AddNote(title, note);
+                var action = await this.service.CreateUpdateNote(id,title, note);
                 action?.Match(
-                   ok: async (_)  =>
+                   ok: async (note)  =>
                    {
-                       TitleEditor.Text = "";
-                       NoteEditor.Text = "";
-                       //snackbar
-                       await this.ShowSuccess("Note has been succesfully added");
+                        this.id = note.Id; //from now on updates the note
+                        NewNoteBtn.IsVisible = true;
+                        await this.ShowSuccess("Note has been succesfully saved");
                    },
-                   err:async (err)=>
+                   err:async (msg)=>
                    {
-                       Debug.WriteLine("[ADD]in result: " + err.Message);
-                       await this.ShowFail(err.Message);
+                       await this.ShowFail(msg);
                    }
                 );
             }
@@ -59,16 +58,22 @@ namespace NoteHub_Client
                 await this.ShowFail(err.Message);
             }
         }
+        private void NewNoteBtnClick(object? sender, EventArgs e)
+        {
+            this.id = null;
+            TitleEditor.Text = "";
+            NoteEditor.Text  = "";
+            NewNoteBtn.IsVisible = false;
+        }
 
-
-        //snackbar for on succes
+        //snackbars
         private async Task ShowSuccess(string message)
         {
             var snackbar = Snackbar.Make(message, null, "OK", TimeSpan.FromSeconds(3), new SnackbarOptions
             {
                 BackgroundColor = Colors.Green,
                 TextColor = Colors.White
-            });
+            }, ErrorText);
             await snackbar.Show();
         }
 
@@ -78,7 +83,7 @@ namespace NoteHub_Client
             {
                 BackgroundColor = Colors.Red,
                 TextColor = Colors.White
-            });
+            }, ErrorText);
             await snackbar.Show();
         }
     }
