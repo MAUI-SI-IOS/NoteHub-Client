@@ -12,13 +12,24 @@
                 FontAttributes="Bold"
                 TextColor="#1A1A1A"
                 AutoSize="TextChanges" 
-                BackgroundColor="Transparent" />
+                BackgroundColor="Transparent" 
+                TextChanged="OnSearchTextChanged" />
 
         <BoxView HeightRequest="1" Color="#F0F0F0" HorizontalOptions="Fill" />
 
         <CollectionView x:Name="NotesListView"
                 SelectionMode="Single"
                 SelectionChanged="OnNoteSelected">
+            <!-- if note is empty -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="{Binding StatusMessage}"
+                           FontSize="18" 
+                           TextColor="Gray" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <!-- if note isn't empty -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="0,15" RowDefinitions="Auto, Auto">
