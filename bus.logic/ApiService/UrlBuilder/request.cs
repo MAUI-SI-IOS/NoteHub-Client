@@ -9,6 +9,6 @@ namespace bus.logic.ApiService.Url
     {
         internal string  Type { get; set; }
         internal string  Uri  { get; set; }
-        internal ISerializable? Body { get; set; }
+        internal object? Body { get; set; }
     };
 }

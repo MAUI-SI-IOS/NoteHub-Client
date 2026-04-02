@@ -18,7 +18,7 @@ namespace bus.logic.ApiService.Url
             request.Uri = uri;
             return this;
         }
-        public UrlBuilder buildBody(ISerializable body)
+        public UrlBuilder buildBody(object body)
         {
             request.Body = body;
             return this;
