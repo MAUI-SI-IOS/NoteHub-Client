@@ -26,9 +26,9 @@ namespace bus.logic.service
         }
 
 
-        public void AddNote(Note note)
+        public async Task<Result<Note, Exception>> AddNote(Note note)
         {
-            api.Send(new PostNoteDirector<Note>(note));
+            return await api.Send(new PostNoteDirector<Note>(note));
         }
 
         //public void UpdateNote()
@@ -41,10 +41,10 @@ namespace bus.logic.service
     public class Note
     {
         [JsonPropertyName("id")]
-        string? id;
+        public string? id;
         [JsonPropertyName("title")]
-        string title;
+        public string title;
         [JsonPropertyName("raw_content")]
-        string RawContent;
+        public string RawContent;
     }
 }
