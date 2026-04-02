@@ -1,8 +1,8 @@
 namespace NoteHub_Client;
 
-public partial class NoteDetailPage : ContentPage
+public partial class _NoteDetailPage : ContentPage
 {
-	public NoteDetailPage()
+	public _NoteDetailPage()
 	{
 		InitializeComponent();
 	}
