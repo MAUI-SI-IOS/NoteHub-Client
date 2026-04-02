@@ -67,7 +67,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="NoteDetailPage.xaml">
+	  <Compile Update="_NoteDetailPage.xaml.cs">
+	    <DependentUpon>_NoteDetailPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="_NoteDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\NoteDetailsPage.xaml">

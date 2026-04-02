@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:NoteHub_Client.Views"
+             xmlns:viewModels="clr-namespace:NoteHub_Client.ViewModels"
              x:Class="NoteHub_Client.Pages.NoteDetailsPage"
              Title="NoteDetailsPage">
+    <ContentPage.BindingContext>
+        <viewModels:NoteDetailsViewModel />
+    </ContentPage.BindingContext>
+
     <VerticalStackLayout>
-        <HorizontalStackLayout>
-            <Label Text="Title:" FontAttributes="Bold" />
-            <Label Text="{Binding Note.Title}" />
-            
+        <!-- Header with Title and Mode Toggle -->
+        <HorizontalStackLayout Padding="10">
+            <Label Text="Title:" FontAttributes="Bold" VerticalOptions="Center" />
+            <Label Text="{Binding NoteTitle}" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding IsReadMode}" VerticalOptions="Center" Toggled="Switch_Toggled" />
+        </HorizontalStackLayout>
+
+        <!-- Content View -->
+        <ContentView>
+            <ContentView.ControlTemplate>
+                <ControlTemplate>
+                    <Grid>
+                        <!-- Read Mode: RenderedNoteContentView -->
+                        <views:RenderedNoteContentView IsVisible="{Binding IsReadMode}" />
+
+                        <!-- Edit Mode: Editor -->
+                        <Editor IsVisible="{Binding IsReadMode, Converter={StaticResource InverseBooleanConverter}}"
+                                Text="{Binding NoteContent}"
+                                AutoSize="TextChanges"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontSize="Medium" />
+                    </Grid>
+                </ControlTemplate>
+            </ContentView.ControlTemplate>
+        </ContentView>
     </VerticalStackLayout>
 </ContentPage>

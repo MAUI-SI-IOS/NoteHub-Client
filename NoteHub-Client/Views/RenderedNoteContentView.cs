@@ -32,6 +32,19 @@ public class RenderedNoteContentView : Grid
         set => SetValue(TokensProperty, value);
     }
 
+    public static readonly BindableProperty ContentProperty = BindableProperty.Create(
+        nameof(Content),
+        typeof(string),
+        typeof(RenderedNoteContentView),
+        default(string),
+        propertyChanged: OnContentChanged);
+
+    public string Content
+    {
+        get => (string)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+
     private readonly Label titleLabel = new Label();
     private readonly Label noteContentLabel = new Label();
 
@@ -69,6 +82,14 @@ public class RenderedNoteContentView : Grid
         view.RenderNoteContent();
     }
 
+    private static void OnContentChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var view = (RenderedNoteContentView)bindable;
+        Debug.WriteLine($"Content changed: {newValue}");
+        view.Content = (string)newValue;
+        view.RenderNoteContent();
+    }
+
     private void RenderPlaceholder()
     {
         titleLabel.Text = "No Title";
@@ -77,6 +98,11 @@ public class RenderedNoteContentView : Grid
 
     private void RenderNoteContent()
     {
+        if (!string.IsNullOrEmpty(Content))
+        {
+            noteContentLabel.Text = Content;
+            return;
+        }
 
         if (Tokens == null || !Tokens.Any())
         {
