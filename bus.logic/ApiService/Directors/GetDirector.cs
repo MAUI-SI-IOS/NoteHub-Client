@@ -4,23 +4,25 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text;
 using bus.logic.ApiService.Url;
+using bus.logic.service;
 
 namespace bus.logic.ApiService.Directors
 {
-    internal class GetNoteDirector: IQueryDirector<Note>
+    internal class GetDirector<T>: IQueryDirector<T>
     {
-        readonly string BaseUrl;
+        string route;
         UrlBuilder builder;
-
-        public GetNoteDirector()
+        
+        public GetDirector(string route)
         {
             this.builder = new UrlBuilder();
+            this.route = route;
         }
 
         public Request MakeQuery()
         {
             return builder.BuildType("GET")
-                          .BuildUri(BaseUrl+"")
+                          .BuildUri(this.route)
                           .build();
         }
 

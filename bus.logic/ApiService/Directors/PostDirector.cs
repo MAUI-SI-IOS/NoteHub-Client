@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 using bus.logic.ApiService.Url;
+using bus.logic.service;
 
 namespace bus.logic.ApiService.Directors
 {
-    internal class PostNoteDirector: IQueryDirector<Note>
+    internal class PostNoteDirector<T>: IQueryDirector<T>
     {
         readonly string BaseUrl;
         UrlBuilder builder;
-        ISerializable body;
+        Note body;
 
-        public PostNoteDirector(ISerializable body)
+        public PostNoteDirector(Note body)
         {
             this.builder = new UrlBuilder();
             this.body = body;
