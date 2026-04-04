@@ -11,7 +11,12 @@ namespace NoteHub_Client.ViewModels
         private readonly INoteHubConfigService _configService = new NoteHubConfigService();
 
         [ObservableProperty]
-        private string _serverUrl = "";
+        private string _serverUrl;
+
+        public ServerSelectionViewModel()
+        {
+            _serverUrl = _configService.ServerConnectionUrl ?? "";
+        }
 
 
         [RelayCommand]

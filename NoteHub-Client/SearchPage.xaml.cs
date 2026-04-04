@@ -1,16 +1,15 @@
-
+namespace NoteHub_Client;
 
 using bus.logic.Result;
 using bus.logic.service;
-using System.Net;
+using NoteHub_Client.Pages;
 
-namespace NoteHub_Client;
 
 public partial class SearchPage : ContentPage
 {
     NoteService service;
     
-    private CancellationTokenSource _searchCancellation;
+    private CancellationTokenSource? _searchCancellation;
     public static readonly BindableProperty StatusMessageProperty =
         BindableProperty.Create(nameof(StatusMessage), typeof(string), typeof(SearchPage), "Commencez à taper...");
 
@@ -70,17 +69,17 @@ public partial class SearchPage : ContentPage
 
     public async void OnNoteSelected(object? sender, SelectionChangedEventArgs e) 
 	{
-        var selectedNote = e.CurrentSelection.FirstOrDefault();//need to cast in Note
+        var selectedNote = e.CurrentSelection.FirstOrDefault() as Note;
         
         if (selectedNote != null)
         {
             
             var navigationParameter = new Dictionary<string, object>
             {
-                { "Note", selectedNote }
+                { NoteDetailsPage.NOTE_TITLE_QUERY_KEY, selectedNote }
             };
 
-            await Shell.Current.GoToAsync(nameof(NoteDetailPage), navigationParameter);
+            await Shell.Current.GoToAsync(nameof(NoteDetailsPage), navigationParameter);
         }
     }
 }
