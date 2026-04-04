@@ -4,8 +4,5 @@
              xmlns:ctrl="clr-namespace:NoteHub_Client.Views"
              x:Class="NoteHub_Client.MainPage"
              BackgroundColor="White">
-    <VerticalStackLayout Padding="10,10" Spacing="30">
 
-
-        </VerticalStackLayout>
 </ContentPage>
