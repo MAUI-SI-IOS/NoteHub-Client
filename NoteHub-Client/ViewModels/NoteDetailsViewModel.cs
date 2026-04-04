@@ -7,7 +7,7 @@ namespace NoteHub_Client.ViewModels
     public partial class NoteDetailsViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string noteId = "";
+        private long noteId = -1;
 
         [ObservableProperty]
         private bool isReadMode = true;
@@ -23,8 +23,8 @@ namespace NoteHub_Client.ViewModels
 
         public void SetStateFrom(Note note)
         {
-            NoteId = note.id ?? NoteId;
-            NoteTitle = note.title;
+            NoteId = note.Id ?? NoteId;
+            NoteTitle = note.Title;
             NoteContent = note.RawContent;
         }
 
