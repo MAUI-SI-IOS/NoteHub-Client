@@ -14,7 +14,7 @@ public partial class NoteDetailsPage : ContentPage, IQueryAttributable
     {
         InitializeComponent();
         _viewModel = new NoteDetailsViewModel();
-        BindingContext = _viewModel;
+        this.BindingContext = _viewModel;
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
