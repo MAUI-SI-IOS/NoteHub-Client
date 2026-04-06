@@ -14,14 +14,14 @@ namespace NoteHub_Client.ViewModels
 
         public ServerSelectionViewModel(INoteHubConfigService config)
         {
-            _config = config;
+            _config    = config;
+            _serverUrl = _config.Client.ToString() ?? "";
         }
 
 
         [RelayCommand]
         public void SubmitServerUrl()
         {
-            if (String.IsNullOrEmpty(ServerUrl)) return;
             _config.ServerUrl = ServerUrl; 
         }
     }

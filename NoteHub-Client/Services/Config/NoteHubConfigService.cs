@@ -1,5 +1,5 @@
-﻿
-using bus.logic.Result;
+﻿using bus.logic.Result;
+using bus.logic.ApiService;
 
 namespace NoteHub_Client.Services.Config
 {
@@ -7,33 +7,22 @@ namespace NoteHub_Client.Services.Config
     {
         const string serverUrl  = "SERVER_URL";
         const string localDb = "LOCAL_DB_PATH"; //default sqlite path
+        public string LocalDb => localDb;
         public string ServerUrl
         {
             private get => Preferences.Get(serverUrl, "");
             set => Preferences.Set(serverUrl, value);
         }
-        public Result<HttpClient, string> Client
+        public HttpClient Client
         {
             get {
-
-                if (string.IsNullOrWhiteSpace(ServerUrl))
+                return new HttpClient
                 {
-                    return Result<HttpClient, string>.Failure(localDb);
-                }
-                try
-                {
-                    var client = new HttpClient
-                    {
-                        BaseAddress = new Uri(ServerUrl),
-                        Timeout = TimeSpan.FromSeconds(5)
-                    };
-                    return Result<HttpClient, string>.Success(client);
-                }
-                catch
-                {
-                    return Result<HttpClient, string>.Failure(localDb  );
-                }
+                    BaseAddress = new Uri(ServerUrl),
+                    Timeout = TimeSpan.FromSeconds(5)
+                };
             }
         }
+
     }
 }

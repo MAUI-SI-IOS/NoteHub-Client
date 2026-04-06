@@ -9,7 +9,8 @@ namespace NoteHub_Client.Services.Config
 {
     public interface INoteHubConfigService
     {
+        string LocalDb { get; }
         string ServerUrl { set; }
-        Result<HttpClient, string> Client { get; }
+        HttpClient Client { get; }
     }
 }
