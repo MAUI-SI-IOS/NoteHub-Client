@@ -12,6 +12,7 @@ namespace bus.logic.NoteService
 {
     public class LocalNoteService: INoteService
     {
+        // TODO: Implement LocalNoteService 
         public LocalNoteService(string path) { }
 
         public Task<Result<Note, HttpException>> CreateUpdateNote(long? id, string title, string note)
