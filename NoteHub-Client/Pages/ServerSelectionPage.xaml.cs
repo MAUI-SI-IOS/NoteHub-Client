@@ -1,6 +1,8 @@
+namespace NoteHub_Client;
+
 using NoteHub_Client.ViewModels;
 
-namespace NoteHub_Client;
+
 
 public partial class ServerSelectionPage : ContentPage
 {
