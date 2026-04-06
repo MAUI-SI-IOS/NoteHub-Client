@@ -1,21 +1,20 @@
-﻿using bus.logic.NoteService;
+﻿using bus.logic.models;
+using bus.logic.NoteService;
 using bus.logic.Result;
-using bus.logic.service;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
-using System.Security.Cryptography.X509Certificates;
+using NoteHub_Client.Services;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace NoteHub_Client.ViewModels;
 
 public partial class SearchNoteViewModel : ObservableObject
 {
     [ObservableProperty]
-    string _search;   
+    string _search;
     [ObservableProperty]
-    List<Note> list;
+    ObservableCollection<Note> list;
     [ObservableProperty]
     string statusMessage;
 
@@ -25,9 +24,12 @@ public partial class SearchNoteViewModel : ObservableObject
     public SearchNoteViewModel(INoteService service)
     {
         this.service = service;
-        list = new List<Note>();
+        List = new ObservableCollection<Note>();
+        if (service is ProxyNoteService proxy)
+        {
+            proxy.OnStatusChanged += HandleStatusChanged;
+        }
     }
-
     partial void OnSearchChanged(string value) => SearchCommand.Execute(value);
 
 
@@ -36,7 +38,7 @@ public partial class SearchNoteViewModel : ObservableObject
     {
         _taskToken?.Cancel();
         if (String.IsNullOrEmpty(token)) { return; };
-
+        
         //creating delay in between input
         _taskToken = new CancellationTokenSource();
 
@@ -46,41 +48,61 @@ public partial class SearchNoteViewModel : ObservableObject
 
             var result = await service.SearchNote(token);
             result?.Match(
-                ok: (list) =>
+                ok: (notes) =>
                 {
-                    List = list;
-                    StatusMessage = "";
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        List = new ObservableCollection<Note>(notes);
+                        StatusMessage = "";
+                    });
                 },
-                err: (msg) =>
-                {
-                    StatusMessage = msg;
-                }
+                err: (ex) => StatusMessage = ex.msg
             );
         }
         catch (OperationCanceledException) { }
         catch (Exception e)
         {
-            System.Diagnostics.Debug.WriteLine($"[Search error] {e.Message}");
-            StatusMessage = "[Internal Error] please try againg later";
+            Debug.WriteLine($"[CATCHED ERROR], {e.Message}");
+            StatusMessage = "[Internal Error], please try againg later";
         }
     }
-    [RelayCommand]
-    public async void OnSelectedNoteCommand()
-    {
 
-    }
     [RelayCommand]
-    public async Task OnAppearing()
+    public async Task OnSelectedNote(Note note)
     {
-        if (service is LocalNoteService)
+        try
         {
-            var snackbar = Snackbar.Make(
-                message: "No connection found, offline mode",
-                duration: TimeSpan.FromSeconds(3),
-                visualOptions: new SnackbarOptions { BackgroundColor = Colors.Red });
+            if (note == null) return;
 
-            await snackbar.Show();
+            var navigationParameter = new Dictionary<string, object>
+        {
+            { NoteDetailsPage.NOTE_TITLE_QUERY_KEY, note }
+        };
+            await Shell.Current.GoToAsync(nameof(NoteDetailsPage), navigationParameter);
         }
+        catch(Exception e)
+        {
+            Debug.WriteLine($"[ON SELECT] {e.Message}");
+        }
+    }
+
+    private void HandleStatusChanged(bool isUpgraded)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            string msg = isUpgraded
+                ? "Connecté au serveur Cloud"
+                : "Mode Hors-ligne (Local)";
+
+            if (isUpgraded)
+            {
+                await DisplayService.ShowSuccess(msg, null);
+            }
+            else
+            {
+                await DisplayService.ShowFailure(msg, null);
+            }
+        });
     }
 }
 
