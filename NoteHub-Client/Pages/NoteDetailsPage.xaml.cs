@@ -1,8 +1,9 @@
-using bus.logic.service;
+namespace NoteHub_Client;
+using bus.logic.models;
 using NoteHub_Client.ViewModels;
 using System.Diagnostics;
 
-namespace NoteHub_Client.Pages;
+
 
 public partial class NoteDetailsPage : ContentPage, IQueryAttributable
 {
@@ -10,22 +11,22 @@ public partial class NoteDetailsPage : ContentPage, IQueryAttributable
 
     NoteDetailsViewModel _viewModel;
 
-    public NoteDetailsPage()
+    public NoteDetailsPage(NoteDetailsViewModel viewmodel)
     {
         InitializeComponent();
-        _viewModel = new NoteDetailsViewModel();
+        _viewModel = viewmodel;
         this.BindingContext = _viewModel;
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.ContainsKey(NOTE_TITLE_QUERY_KEY) && query[NOTE_TITLE_QUERY_KEY] is Note noteFromQuery)
+        if (query.ContainsKey(NOTE_TITLE_QUERY_KEY) && query[NOTE_TITLE_QUERY_KEY] is Note note)
         {
-            _viewModel.SetStateFrom(noteFromQuery);
+            Debug.WriteLine($"[TESTING] {note.Title}, {note.RawContent}");
+            _viewModel.SetStateFrom(note);
             return;
         }
         Debug.WriteLine("Error applying query attributes");   
     }
 
-    private void Switch_Toggled(object sender, ToggledEventArgs e) => _viewModel.ToggleReadMode();
 }
