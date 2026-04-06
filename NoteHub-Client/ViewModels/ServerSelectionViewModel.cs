@@ -15,7 +15,7 @@ namespace NoteHub_Client.ViewModels
         public ServerSelectionViewModel(INoteHubConfigService config)
         {
             _config    = config;
-            _serverUrl = _config.Client.ToString() ?? "";
+            _serverUrl = _config.Client.BaseAddress.ToString() ?? "";
         }
 
 
