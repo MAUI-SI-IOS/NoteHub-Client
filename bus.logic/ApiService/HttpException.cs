@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace bus.logic.ApiService
 {
-    internal class HttpException: Exception
+
+    public class HttpException: Exception
     {
-        public int code; 
-        public HttpException(int code)
+        public int code;
+        public string msg;
+        public HttpException(int code, string msg)
         {
             this.code = code;
+            this.msg  = msg;
         }
     }
 }

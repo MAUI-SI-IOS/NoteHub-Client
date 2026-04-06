@@ -1,9 +1,4 @@
-﻿
-using bus.logic.Result;
-using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Text;
+﻿using bus.logic.Result;
 using System.Text.Json;
 
 namespace bus.logic.ApiService.Directors

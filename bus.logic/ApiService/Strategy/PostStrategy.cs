@@ -1,13 +1,6 @@
-﻿using bus.logic.ApiService.Url;
-using bus.logic.Result;
-using bus.logic.service;
-using System;
-using System.Collections.Generic;
+﻿using bus.logic.Result;
 using System.Diagnostics;
 using System.Net.Http.Json;
-using System.Net.Mail;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
 
 namespace bus.logic.ApiService.Directors
@@ -23,15 +16,19 @@ namespace bus.logic.ApiService.Directors
             this._client = client;
             this._serializerOptions = options;
             this.route = route;
+            this.body = body;
         }
 
 
 
         public async Task<Result<TOutput, HttpException>> DoQuery()
         {
+            Debug.Write($"[QUERY] {this._client.BaseAddress.ToString()}, {this.route}");
             try
             {
+            
                 var response = await _client.PostAsJsonAsync<TInput>(route, body, _serializerOptions);
+
                 response.EnsureSuccessStatusCode();
                 if (typeof(TOutput) == typeof(Unit))
                 {
@@ -41,15 +38,25 @@ namespace bus.logic.ApiService.Directors
                 var data = await response.Content.ReadFromJsonAsync<TOutput>(_serializerOptions);
                 return Result<TOutput, HttpException>.Success(data);
             }
-            catch (HttpRequestException e) when (e.StatusCode.HasValue)
+            catch (HttpRequestException e)
             {
-                Debug.WriteLine($"Http exception: {e.Message}");
-                int code = (int)e.StatusCode.Value;
-                return Result<TOutput, HttpException>.Failure(new HttpException(code));
+                Debug.WriteLine($"[HTTP EXCEPTION]: {e.Message}");
+
+                // Si on a un code (400, 404, 500...), on l'utilise.
+                // Sinon (Serveur éteint/No Wi-Fi), on met 0 pour activer le Proxy.
+                int code = e.StatusCode.HasValue ? (int)e.StatusCode.Value : 0;
+
+                return Result<TOutput, HttpException>.Failure(new HttpException(code, e.Message));
+            }
+            catch (OperationCanceledException) // Pour gérer le Timeout (5s)
+            {
+                Debug.WriteLine("Timeout détecté !");
+                return Result<TOutput, HttpException>.Failure(new HttpException(1, "Timeout"));
             }
             catch (Exception e)
             {
-                return Result<TOutput, HttpException>.Failure(new HttpException(500));
+                // On ne met 500 que pour les erreurs inconnues, pas pour le réseau
+                return Result<TOutput, HttpException>.Failure(new HttpException(500, e.Message));
             }
         }
 
