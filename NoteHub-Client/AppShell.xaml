@@ -13,23 +13,23 @@
         </VerticalStackLayout>
     </Shell.FlyoutHeader>
 
-    <FlyoutItem Title="Write a Note" Icon="appicon.png">
+    <FlyoutItem Title="Main page" Icon="appicon.png">
         <ShellContent
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MainPage" />
     </FlyoutItem>
-
-    <FlyoutItem Title="Search a Note">
+    <FlyoutItem Title="Write Note" Icon="appicon.png">
+        <ShellContent
+            ContentTemplate="{DataTemplate local:NoteDetailsPage}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Search Note">
         <ShellContent ContentTemplate="{DataTemplate local:SearchPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Select connected server">
+    <FlyoutItem Title="Select server">
         <ShellContent ContentTemplate="{DataTemplate local:ServerSelectionPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="login" Icon="appicon.png">
-        <ShellContent
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage" />
-    </FlyoutItem>
+   
 </Shell>
