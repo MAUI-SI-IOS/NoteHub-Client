@@ -2,16 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:bus.logic.models;assembly=bus.logic"
              xmlns:viewmodel="clr-namespace:NoteHub_Client.ViewModels"
              x:DataType="viewmodel:SearchNoteViewModel"
              x:Class="NoteHub_Client.SearchPage"
              Title="SearchPage">
-    <VerticalStackLayout Padding="10,10" Spacing="30">
+
+    <Grid RowDefinitions="Auto, Auto, *">
         <Label x:Name="ErrorText"
                HeightRequest="1" 
                InputTransparent="True" />
         <Editor
-            Text="{Binding SearchText}"
+            Grid.Row="0"
+            Text="{Binding Search}"
             Placeholder="Cherchez une note"
             PlaceholderColor="#D1D1D1"
             FontSize="34"
@@ -21,34 +24,37 @@
           
         </Editor>
 
-        <BoxView HeightRequest="1" Color="#F0F0F0" HorizontalOptions="Fill" />
+        <BoxView Grid.Row="1" HeightRequest="1" Color="#F0F0F0" HorizontalOptions="Fill" />
 
         <CollectionView 
+            Grid.Row="2"
             ItemsSource="{Binding List}"
             SelectionMode="Single"
-            SelectionChangedCommand="{Binding OnSelectedNoteCommand}"
-            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
-            <!-- if note is empty -->
+            SelectionChangedCommand="{Binding SelectedNoteCommand}"
+            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+            BackgroundColor="AliceBlue">
+            <!-- if note is empty
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="{Binding StatusMessage}"
                            FontSize="18" 
-                           TextColor="Gray" />
+                           TextColor="#1A1A1A" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
-
+ -->
             <!-- if note isn't empty -->
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="0,15" RowDefinitions="Auto, Auto">
+                <DataTemplate x:DataType="models:Note">
+                    <Grid Padding="0,15">
                         <Label Text="{Binding Title}" 
                        FontSize="18" 
                        FontAttributes="Bold" 
-                       TextColor="#1A1A1A" />
+                       TextColor="White" 
+                       BackgroundColor="#1A1A1A"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
