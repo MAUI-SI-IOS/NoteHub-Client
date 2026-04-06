@@ -1,8 +1,6 @@
 ﻿using bus.logic.NoteService;
-using bus.logic.Result;
 using bus.logic.service;
 using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Alerts;
 using Microsoft.Extensions.Logging;
 using NoteHub_Client.Services.Config;
 using NoteHub_Client.ViewModels;
@@ -17,7 +15,7 @@ namespace NoteHub_Client
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit() //adds snackbar/toast
+                .UseMauiCommunityToolkit() 
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,25 +24,23 @@ namespace NoteHub_Client
 
             builder.Services.AddSingleton<INoteHubConfigService, NoteHubConfigService>();
             //check if config changed and use the appropriate service
-            builder.Services.AddTransient<INoteService>(container =>
+            builder.Services.AddSingleton<INoteService>(container =>
             {
                 var config = container.GetRequiredService<INoteHubConfigService>();
-
-                return config.Client.Match<HttpClient, string, INoteService>(
-                    ok: (client) => new ServerNoteService(client),
-                    err:(dbPath) => new LocalNoteService(dbPath)
-                );
+                var local  = new LocalNoteService(config.LocalDb);
+                var remote = new ServerNoteService(config.Client);              
+                return new ProxyNoteService(local,remote);
             });
-
-            
-            builder.Services.AddTransient<WriteNotePage>();
-            builder.Services.AddTransient<WriteNoteViewModel>();
-
-            builder.Services.AddTransient<SearchPage>();
             builder.Services.AddTransient<SearchNoteViewModel>();
+            builder.Services.AddTransient<SearchPage>();
 
-            builder.Services.AddTransient<ServerSelectionPage>();
             builder.Services.AddTransient<ServerSelectionViewModel>();
+            builder.Services.AddTransient<ServerSelectionPage>();
+
+            builder.Services.AddTransient<NoteDetailsViewModel>();
+            builder.Services.AddTransient<NoteDetailsPage>();
+
+            Routing.RegisterRoute(nameof(NoteDetailsPage), typeof(NoteDetailsPage));
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
