@@ -1,28 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using NoteHub_Client.Services;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using NoteHub_Client.Services.Config;
 
 namespace NoteHub_Client.ViewModels
 {
     public partial class ServerSelectionViewModel : ObservableObject
     {
-        private readonly INoteHubConfigService _configService = new NoteHubConfigService();
+        private readonly INoteHubConfigService _config;
 
         [ObservableProperty]
         private string _serverUrl;
 
-        public ServerSelectionViewModel()
+        public ServerSelectionViewModel(INoteHubConfigService config)
         {
-            _serverUrl = _configService.ServerConnectionUrl ?? "";
+            _config    = config;
+            _serverUrl = _config.Client.BaseAddress.ToString() ?? "";
         }
 
 
         [RelayCommand]
         public void SubmitServerUrl()
         {
-            _configService.ServerConnectionUrl = _serverUrl;
+            _config.ServerUrl = ServerUrl; 
         }
     }
 }

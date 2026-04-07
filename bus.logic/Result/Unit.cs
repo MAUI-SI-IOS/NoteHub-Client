@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NoteHub_Client.Services
+namespace bus.logic.Result
 {
-    public interface INoteHubConfigService
+    //Null value for generic
+    public readonly struct Unit
     {
-        string? ServerConnectionUrl { get; set;  }
+        public static Unit Default => default;
     }
 }

@@ -3,38 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:NoteHub_Client.Views"
              xmlns:viewModels="clr-namespace:NoteHub_Client.ViewModels"
-             x:Class="NoteHub_Client.Pages.NoteDetailsPage"
+             x:Class="NoteHub_Client.NoteDetailsPage"
              Title="NoteDetailsPage">
-    <ContentPage.BindingContext>
+    
+    <!--<ContentPage.BindingContext>
         <viewModels:NoteDetailsViewModel />
-    </ContentPage.BindingContext>
-
+    </ContentPage.BindingContext>-->
+   
     <VerticalStackLayout>
+        <Label x:Name="ErrorAnchor"
+            HeightRequest="0" 
+            InputTransparent="True" 
+            VerticalOptions="Start"/>
         <!-- Header with Title and Mode Toggle -->
         <HorizontalStackLayout Padding="10">
             <Label Text="Title:" FontAttributes="Bold" VerticalOptions="Center" />
             <Label Text="{Binding NoteTitle}" VerticalOptions="Center" />
-            <Switch IsToggled="{Binding IsReadMode}" VerticalOptions="Center" Toggled="Switch_Toggled" />
+            <Switch IsToggled="{Binding IsReadMode}" VerticalOptions="Center" />
         </HorizontalStackLayout>
 
-        <!-- Content View -->
-        <ContentView>
-            <ContentView.ControlTemplate>
-                <ControlTemplate>
-                    <Grid>
-                        <!-- Read Mode: RenderedNoteContentView -->
-                        <views:RenderedNoteContentView IsVisible="{Binding IsReadMode}" />
-
-                        <!-- Edit Mode: Editor -->
-                        <Editor IsVisible="{Binding IsReadMode, Converter={StaticResource InverseBooleanConverter}}"
-                                Text="{Binding NoteContent}"
-                                AutoSize="TextChanges"
-                                BackgroundColor="Transparent"
-                                TextColor="White"
-                                FontSize="Medium" />
-                    </Grid>
-                </ControlTemplate>
-            </ContentView.ControlTemplate>
-        </ContentView>
+            <Grid>
+                <!-- Read Mode: RenderedNoteContentView -->
+                <views:RenderedNoteContentView 
+                    IsVisible   = "{Binding IsReadMode}"
+                    Title       = "{Binding NoteTitle}"
+                    Content     = "{Binding NoteContent}"
+                    Tokens      = "{Binding Tokens}" />
+                <!-- Edit Mode: EditNoteContentView-->
+                <views:EditingNoteContentView
+                    x:Name="EditView"
+                    IsVisible   = "{Binding IsEditMode}"
+                    NoteTitle   = "{Binding NoteTitle}"
+                    NoteContent = "{Binding NoteContent}"
+                    IsUpdateMode= "{Binding IsUpdateMode}"
+                    SaveCommand = "{Binding SaveCommand}"
+                    NewNoteCommand="{Binding NewNoteCommand}"
+                    Anchor="{x:Reference ErrorAnchor}"/>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

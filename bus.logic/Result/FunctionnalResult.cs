@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace bus.logic.Result;
 
 public static class FunctionnalResult
 {
+    //sync
     public static Result<T2, TError> Map<T1, T2, TError>(
         this Result<T1, TError> result, Func<T1, T2> map) =>
         result.IsSuccess
@@ -21,9 +15,8 @@ public static class FunctionnalResult
         !result.IsSuccess
             ? Result<T, T2Error>.Failure(map(result.Error))
             : Result<T, T2Error>.Success(result.Value);
-
-    public static void Match<T, TError>(
-        this Result<T, TError> result, Action<T> ok, Action<TError> err)
+    public static void Match<T, TError>
+        (this Result<T, TError> result, Action<T> ok, Action<TError> err)
     {
         if (result.IsSuccess)
         {
@@ -34,5 +27,69 @@ public static class FunctionnalResult
             err(result.Error);
         }
     }
+    public static TResult Match<T, TError,TResult>
+    (this Result<T, TError> result, Func<T, TResult> ok, Func<TError, TResult> err)
+    => result.IsSuccess ? ok(result.Value) : err(result.Error);
+
+
+
+    //async
+    public static async Task<Result<T,E>> MatchAsync<T, E>
+    (this Task<Result<T, E>> result, Action<T> ok, Action<E> err)
+    {
+        var r = await result;
+
+        if (r.IsSuccess)
+            ok(r.Value);
+        else
+            err(r.Error);
+        
+        return r;
+    }
+
+    public static async Task<Result<T2, E>> MapAsync<T, T2, E>
+    (this Result<T, E> result, Func<T, Task<Result<T2, E>>> mapAsync)
+    => result.IsSuccess ? await mapAsync(result.Value) : Result<T2, E>.Failure(result.Error);
+    public static async Task<Result<T2, E>> MapAsync<T, T2, E>
+    (this Task<Result<T, E>> result, Func<T, Task<Result<T2, E>>> mapAsync)
+        => await (await result).MapAsync(mapAsync);
+
+    public static async Task<Result<T, E2>> MapErrAsync<T, E, E2>
+    (this Result<T, E> result, Func<E, Task<Result<T, E2>>> mapAsync)
+        => result.IsSuccess ? Result<T,E2>.Success(result.Value) : await mapAsync(result.Error);
+    public static async Task<Result<T, E2>> MapErrAsync<T, E, E2>
+    (this Task<Result<T, E>> result, Func<E, Task<Result<T, E2>>> mapAsync)
+        => await (await result).MapErrAsync(mapAsync);
+
+    public static async Task<Result<T, E>> BindAsync<T, E>
+    (this Result<T, E> result, Func<T, Task<Result<T, E>>> bindAsync)
+    => result.IsSuccess ? await bindAsync(result.Value) : result ;
+    public static async Task<Result<T, E>> BindAsync<T, E>
+    (this Task<Result<T, E>> result, Func<T, Task<Result<T, E>>> bindAsync)
+    => await (await result).BindAsync(bindAsync);
+
+    public static async Task<Result<T, E>> BindErrAsync<T, E>
+    (this Result<T, E> result, Func<E, Task<Result<T, E>>> bindAsync)
+    => result.IsSuccess ? result : await bindAsync(result.Error);
+    public static async Task<Result<T, E>> BindErrAsync<T, E>
+    (this Task<Result<T, E>> result, Func<E, Task<Result<T, E>>> bindAsync)
+    => await (await result).BindErrAsync(bindAsync);
+
+    public static async Task<Result<T, E>> TriggerErrAsync<T, E>(
+    this Result<T, E> result,
+    Func<E, Task> action)
+    {     
+        if (!result.IsSuccess)
+        {
+            await action(result.Error);
+        }
+        return result;
+    }
+
+    public static async Task<Result<T, E>> TriggerErrAsync<T, E>
+    (this Task<Result<T, E>> result, Func<E, Task> bindAsync)
+    => await (await result).TriggerErrAsync(bindAsync);
+
+
 }
 

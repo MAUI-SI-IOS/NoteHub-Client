@@ -4,11 +4,5 @@
              xmlns:ctrl="clr-namespace:NoteHub_Client.Views"
              x:Class="NoteHub_Client.MainPage"
              BackgroundColor="White">
-    <ctrl:RenderedNoteContentView
-        BackgroundColor="Black"
-        HorizontalOptions="Fill"
-        VerticalOptions="Fill"
-        Tokens="{Binding Tokens}" />
-    
 
 </ContentPage>
