@@ -46,12 +46,27 @@ public static class FunctionnalResult
         
         return r;
     }
+
+    public static async Task<Result<T2, E>> MapAsync<T, T2, E>
+    (this Result<T, E> result, Func<T, Task<Result<T2, E>>> mapAsync)
+    => result.IsSuccess ? await mapAsync(result.Value) : Result<T2, E>.Failure(result.Error);
+    public static async Task<Result<T2, E>> MapAsync<T, T2, E>
+    (this Task<Result<T, E>> result, Func<T, Task<Result<T2, E>>> mapAsync)
+        => await (await result).MapAsync(mapAsync);
+
     public static async Task<Result<T, E2>> MapErrAsync<T, E, E2>
     (this Result<T, E> result, Func<E, Task<Result<T, E2>>> mapAsync)
         => result.IsSuccess ? Result<T,E2>.Success(result.Value) : await mapAsync(result.Error);
     public static async Task<Result<T, E2>> MapErrAsync<T, E, E2>
     (this Task<Result<T, E>> result, Func<E, Task<Result<T, E2>>> mapAsync)
         => await (await result).MapErrAsync(mapAsync);
+    public static async Task<Result<T, E>> BindAsync<T, E>
+    (this Result<T, E> result, Func<T, Task<Result<T, E>>> bindAsync)
+    => result.IsSuccess ? await bindAsync(result.Value) : result ;
+
+    public static async Task<Result<T, E>> BindAsync<T, E>
+    (this Task<Result<T, E>> result, Func<T, Task<Result<T, E>>> bindAsync)
+    => await (await result).BindAsync(bindAsync);
 
     public static async Task<Result<T, E>> BindErrAsync<T, E>
     (this Result<T, E> result, Func<E, Task<Result<T, E>>> bindAsync)

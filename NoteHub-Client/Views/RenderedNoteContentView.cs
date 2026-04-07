@@ -70,15 +70,13 @@ public class RenderedNoteContentView : Grid
     {
         var view = (RenderedNoteContentView)bindable;
         Debug.WriteLine($"Title changed: {newValue}"); // Debug log
-        view.Title = (string)newValue; // Update the property
-        view.titleLabel.Text = view.Title; // Update the title label
+        view.titleLabel.Text = (string)newValue ?? "No Title";
     }
 
     private static void OnTokensChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var view = (RenderedNoteContentView)bindable;
         Debug.WriteLine($"Tokens changed: {newValue}");
-        view.Tokens = (IList<Token>)newValue;
         view.RenderNoteContent();
     }
 
@@ -86,7 +84,6 @@ public class RenderedNoteContentView : Grid
     {
         var view = (RenderedNoteContentView)bindable;
         Debug.WriteLine($"Content changed: {newValue}");
-        view.Content = (string)newValue;
         view.RenderNoteContent();
     }
 
