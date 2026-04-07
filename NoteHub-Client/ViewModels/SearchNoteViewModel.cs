@@ -14,7 +14,7 @@ public partial class SearchNoteViewModel : ObservableObject
     [ObservableProperty]
     string _search;
     [ObservableProperty]
-    ObservableCollection<Note> list;
+    ObservableCollection<INote> list;
     [ObservableProperty]
     string statusMessage;
 
@@ -24,7 +24,7 @@ public partial class SearchNoteViewModel : ObservableObject
     public SearchNoteViewModel(INoteService service)
     {
         this.service = service;
-        List = new ObservableCollection<Note>();
+        List = new ObservableCollection<INote>();
         if (service is ProxyNoteService proxy)
         {
             proxy.OnStatusChanged += HandleStatusChanged;
@@ -52,7 +52,7 @@ public partial class SearchNoteViewModel : ObservableObject
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        List = new ObservableCollection<Note>(notes);
+                        List = new ObservableCollection<INote>(notes);
                         StatusMessage = "";
                     });
                 },
@@ -68,7 +68,7 @@ public partial class SearchNoteViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public async Task OnSelectedNote(Note note)
+    public async Task OnSelectedNote(INote note)
     {
         try
         {
