@@ -10,18 +10,17 @@ namespace bus.logic.NoteService
 
     public class ProxyNoteService : INoteService, IDisposable 
     {
-        private readonly INoteService _fallback;
-        private readonly INoteService _upgrade;
+        private readonly SoftZip _zip;
+        
         private bool IsUpgraded;
         public event Action<bool> OnStatusChanged;
-        private INoteService Resolve => IsUpgraded ? _upgrade : _fallback;
+
         private CancellationTokenSource _cts;
 
 
         public ProxyNoteService(INoteService fallback, INoteService upgraded)
         {
-            _upgrade = upgraded;
-            _fallback = fallback;
+            _zip = new SoftZip(fallback, upgraded);
             Monitor();
         }
 
@@ -31,47 +30,23 @@ namespace bus.logic.NoteService
         //--------------------//
         public async Task<Result<List<Note>, HttpException>> SearchNote(string token)
         {
-            return await Resolve.SearchNote(token)
-                .BindErrAsync(async (ex) => {
-                    if (ex.code < 10)
-                    {
-                        Monitor();
-                        return await _fallback.SearchNote(token);
-                    }
-                    return Result<List<Note>, HttpException>.Failure(ex);
-                });
+            return await _zip.SearchNote(token);        
         }
 
         public async Task<Result<Note, HttpException>> GetNoteByTitle(string title)
         {
-            return await Resolve.GetNoteByTitle(title)
-                .BindErrAsync(async (ex) => {
-                    if (ex.code < 10)
-                    {
-                        Monitor();
-                        return await _fallback.GetNoteByTitle(title);
-                    }
-                    return Result<Note, HttpException>.Failure(ex);
-                });
+            return await _zip.GetNoteByTitle(title);
         }
 
         public async Task<Result<Note, HttpException>> CreateUpdateNote(long? id, string title, string note)
         {
-            return await Resolve.CreateUpdateNote(id, title, note)
-                .BindErrAsync(async (ex) => {
-                    Debug.WriteLine($"[WAITING] {ex.code} {ex.msg}");
-                    if (ex.code < 10)
-                    {
-                        Monitor();
-                        return await _fallback.CreateUpdateNote(id, title, note);
-                    }
-                    return Result<Note, HttpException>.Failure(ex);
-                });     
-        }
+            //try to write localy if it works try to create if it works try to write
+            return await _zip.CreateUpdateNote(id, title, note);
+         }
 
         public Task<bool> Ping()
         {
-            return Resolve.Ping();
+            return _zip.Ping();
         }
         
 
@@ -88,7 +63,7 @@ namespace bus.logic.NoteService
                     while (!token.IsCancellationRequested)
                     {
                         Debug.WriteLine("[WAITING] for response");
-                        var result = await _upgrade.Ping();
+                        var result = await _zip.Ping();
                         if (result)
                         {
                             UpdateStatus(true);
