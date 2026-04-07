@@ -22,7 +22,7 @@ namespace bus.logic.ApiService.Directors
 
 
 
-        public async Task<Result<TOutput, HttpException>> DoQuery()
+        public async Task<Result<TOutput, NoteServiceException>> DoQuery()
         {
             try
             {
@@ -30,11 +30,11 @@ namespace bus.logic.ApiService.Directors
                 response.EnsureSuccessStatusCode();
                 if (typeof(TOutput) == typeof(Unit))
                 {
-                    return Result<TOutput, HttpException>.Success((TOutput)(object)Unit.Default);
+                    return Result<TOutput, NoteServiceException>.Success((TOutput)(object)Unit.Default);
                 }
 
                 var data = await response.Content.ReadFromJsonAsync<TOutput>(_serializerOptions);
-                return Result<TOutput, HttpException>.Success(data);
+                return Result<TOutput, NoteServiceException>.Success(data);
             }
             catch (HttpRequestException e)
             {
@@ -44,17 +44,17 @@ namespace bus.logic.ApiService.Directors
                 // Sinon (Serveur éteint/No Wi-Fi), on met 0 pour activer le Proxy.
                 int code = e.StatusCode.HasValue ? (int)e.StatusCode.Value : 0;
 
-                return Result<TOutput, HttpException>.Failure(new HttpException(code, e.Message));
+                return Result<TOutput, NoteServiceException>.Failure(new NoteServiceException(code, e.Message));
             }
             catch (OperationCanceledException) // Pour gérer le Timeout (5s)
             {
                 Debug.WriteLine("Timeout détecté !");
-                return Result<TOutput, HttpException>.Failure(new HttpException(1, "Timeout"));
+                return Result<TOutput, NoteServiceException>.Failure(new NoteServiceException(1, "Timeout"));
             }
             catch (Exception e)
             {
                 // On ne met 500 que pour les erreurs inconnues, pas pour le réseau
-                return Result<TOutput, HttpException>.Failure(new HttpException(500, e.Message));
+                return Result<TOutput, NoteServiceException>.Failure(new NoteServiceException(500, e.Message));
             }
         }
 
