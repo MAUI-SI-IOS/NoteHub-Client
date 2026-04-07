@@ -30,7 +30,7 @@ namespace NoteHub_Client.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> tokens = new ObservableCollection<string>();
 
-        public void SetStateFrom(Note note)
+        public void SetStateFrom(INote note)
         {
             NoteId = note.Id;
             NoteTitle = note.Title;

@@ -58,7 +58,7 @@
  -->
             <!-- if note isn't empty -->
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Note">
+                <DataTemplate x:DataType="models:INote">
                     <Grid Padding="0,15">
                         <Label Text="{Binding Title}" 
                        FontSize="18" 

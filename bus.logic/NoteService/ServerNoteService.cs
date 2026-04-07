@@ -23,31 +23,31 @@ namespace bus.logic.service
             };
         }
         
-        public async Task<Result<List<Note>, HttpException>> SearchNote(string token)
+        public async Task<Result<List<INote>, NoteServiceException>> SearchNote(string token)
         {
-            return await new GetStrategy<List<Note>>(_client, $"token/{token}", _options)
+            return await new GetStrategy<List<INote>>(_client, $"token/{token}", _options)
                         .DoQuery();            
         }
 
-        public async Task<Result<Note, HttpException>> GetNoteByTitle(string title)
+        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
         {
-            return await new GetStrategy<Note>(_client, $"note/title/{title}", _options)
+            return await new GetStrategy<INote>(_client, $"note/title/{title}", _options)
                         .DoQuery();
            
         }
 
 
-        public async Task<Result<Note, HttpException>> CreateUpdateNote(long? id,string title, string note)
+        public async Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note)
         {
             Debug.WriteLine($"[QUERY] {id} {title} {note}");
             if (id == null)
             {
-                return await new PostStrategy<Note, Note>(_client, $"/note", new Note(title, note), _options)
+                return await new PostStrategy<NoteDto, INote>(_client, $"/note", new NoteDto(title, note), _options)
                             .DoQuery();
             }
             else
             {
-                return await new PatchStrategy<Note, Note>(_client, $"/note", new Note(title, note, id), _options)
+                return await new PatchStrategy<NoteDto, INote>(_client, $"/note", new NoteDto(title, note, id), _options)
                 .DoQuery();
             }
         }

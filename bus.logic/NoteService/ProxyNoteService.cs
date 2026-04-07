@@ -32,11 +32,11 @@ namespace bus.logic.NoteService
         //--------------------//
         //    INoteService    //
         //--------------------//
-        public async Task<Result<List<Note>, HttpException>> SearchNote(string token)
+        public async Task<Result<List<INote>, NoteServiceException>> SearchNote(string token)
         => await _zip.SearchNote(token);
-        public async Task<Result<Note, HttpException>> GetNoteByTitle(string title)
+        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
         => await _zip.GetNoteByTitle(title);
-        public async Task<Result<Note, HttpException>> CreateUpdateNote(long? id, string title, string note)
+        public async Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note)
         => await _zip.CreateUpdateNote(id, title, note);
         public Task<bool> Ping() => _zip.Ping();
     }

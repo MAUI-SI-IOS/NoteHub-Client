@@ -1,5 +1,7 @@
 <Solution>
-  <Project Path="NoteHub-Client.test/NoteHub-Client.test.csproj" Id="2134b2a1-e665-4c75-a3a7-bccfca42e3d0" />
+  <Project Path="NoteHub-Client.test/NoteHub-Client.test.csproj" Id="2134b2a1-e665-4c75-a3a7-bccfca42e3d0">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="NoteHub-Client/NoteHub-Client.csproj" />
   <Project Path="bus.logic/bus.logic.csproj" />
 </Solution>

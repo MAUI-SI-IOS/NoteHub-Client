@@ -20,7 +20,7 @@ public partial class NoteDetailsPage : ContentPage, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.ContainsKey(NOTE_TITLE_QUERY_KEY) && query[NOTE_TITLE_QUERY_KEY] is Note note)
+        if (query.ContainsKey(NOTE_TITLE_QUERY_KEY) && query[NOTE_TITLE_QUERY_KEY] is INote note)
         {
             Debug.WriteLine($"[TESTING] {note.Title}, {note.RawContent}");
             _viewModel.SetStateFrom(note);

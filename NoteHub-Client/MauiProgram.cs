@@ -27,7 +27,7 @@ namespace NoteHub_Client
             builder.Services.AddSingleton<INoteService>(container =>
             {
                 var config = container.GetRequiredService<INoteHubConfigService>();
-                var local  = new LocalNoteService(config.LocalDb);
+                var local  = new LocalNoteService();
                 var remote = new ServerNoteService(config.Client);              
                 return new ProxyNoteService(local,remote);
             });

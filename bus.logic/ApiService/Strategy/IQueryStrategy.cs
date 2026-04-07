@@ -7,6 +7,6 @@ namespace bus.logic.ApiService.Directors
     {
         HttpClient _client { get; set; }
         JsonSerializerOptions _serializerOptions { get; set; }
-        Task<Result<T, HttpException>> DoQuery();
+        Task<Result<T, NoteServiceException>> DoQuery();
     }
 }

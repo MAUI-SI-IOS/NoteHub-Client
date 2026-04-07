@@ -20,7 +20,7 @@ namespace bus.logic.NoteService
             A = a;
             B = b;
         }
-        public async Task<Result<Note, HttpException>> CreateUpdateNote(long? id, string title, string note)
+        public async Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note)
         {
             var localResult = await A.CreateUpdateNote(id, title, note);  
             if (!localResult.IsSuccess) return localResult;
@@ -28,13 +28,13 @@ namespace bus.logic.NoteService
             return await B.CreateUpdateNote(id, title, note)
                 .TriggerErrAsync(async (ex) => { if (ex.code < 10) OnStatusChanged.Invoke(true); });
         }
-        public async Task<Result<List<Note>, HttpException>> SearchNote(string token)
+        public async Task<Result<List<INote>, NoteServiceException>> SearchNote(string token)
         {
             return await B.SearchNote(token)
                 .TriggerErrAsync(async(ex)=> { if (ex.code < 10) OnStatusChanged.Invoke(true); })
                 .MapErrAsync(async (ex) => await A.SearchNote(token));
         }
-        public async Task<Result<Note, HttpException>> GetNoteByTitle(string title)
+        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
         {
             return await B.GetNoteByTitle(title)
                 .TriggerErrAsync(async (ex) => { if (ex.code < 10) OnStatusChanged.Invoke(true); })
