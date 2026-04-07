@@ -5,7 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:NoteHub_Client"
     Title="NoteHub_Client"
-    FlyoutBehavior="Flyout">
+    Shell.BackgroundColor="White"
+    Shell.ForegroundColor="Black"
+    FlyoutBehavior="Flyout"
+    FlowDirection="LeftToRight">
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout Padding="20" BackgroundColor="#F0F0F0">

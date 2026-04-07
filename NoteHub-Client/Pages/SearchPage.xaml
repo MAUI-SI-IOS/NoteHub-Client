@@ -7,8 +7,23 @@
              x:DataType="viewmodel:SearchNoteViewModel"
              x:Class="NoteHub_Client.SearchPage"
              Title="SearchPage">
+    <Shell.TitleView>
+        <Grid FlowDirection="RightToLeft" 
+              VerticalOptions="Center" 
+              Padding="15,0">
 
-    <Grid RowDefinitions="Auto, Auto, *">
+            <Label Text="Recherche de Notes" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="Black" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="Start" />
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        
         <Label x:Name="ErrorText"
                HeightRequest="1" 
                InputTransparent="True" />
@@ -31,8 +46,7 @@
             ItemsSource="{Binding List}"
             SelectionMode="Single"
             SelectionChangedCommand="{Binding SelectedNoteCommand}"
-            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
-            BackgroundColor="AliceBlue">
+            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
             <!-- if note is empty
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
