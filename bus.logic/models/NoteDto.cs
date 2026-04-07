@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace bus.logic.models
 {
-    public class Note
+    public class NoteDto : INote
     {
         [JsonPropertyName("id")]
         public long? Id { get; set; } // Matches Long? = null
@@ -20,8 +20,8 @@ namespace bus.logic.models
 
         [JsonPropertyName("formattedContent")] // WAS formated_content (Fixed spelling + case)
         public string FormattedContent { get; set; }
-        public Note() { }
-        public Note(string title, string note, long? id = null)
+        public NoteDto() { }
+        public NoteDto(string title, string note, long? id = null)
         {
             Title = title;
             RawContent = note;
