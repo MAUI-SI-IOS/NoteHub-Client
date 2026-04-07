@@ -2,8 +2,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              BackgroundColor="#0B160B"
              x:Class="NoteHub_Client.ServerSelectionPage">
+    <Shell.TitleView>
+        <Grid FlowDirection="RightToLeft" 
+              VerticalOptions="Center" 
+              Padding="15,0">
 
+            <Label Text="Selection de Serveur" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="Black" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="Start" />
+        </Grid>
+    </Shell.TitleView>
+    
+    
     <Grid RowDefinitions="Auto, *, Auto">
+
+        <BoxView Grid.Row="0" 
+             HeightRequest="0.5" 
+             BackgroundColor="#EEEEEE" 
+             Margin="20,0"/>
+        
         <HorizontalStackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,40">
             <Image Source="shield_icon.png" HeightRequest="30" WidthRequest="30"/>
             <Label Text="The Sanctuary" FontSize="24" FontAttributes="Bold" TextColor="White" Margin="10,0"/>

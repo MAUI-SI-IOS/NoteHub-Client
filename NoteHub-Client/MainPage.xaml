@@ -4,5 +4,67 @@
              xmlns:ctrl="clr-namespace:NoteHub_Client.Views"
              x:Class="NoteHub_Client.MainPage"
              BackgroundColor="White">
+    
+    <Shell.TitleView>
+        <Grid FlowDirection="RightToLeft" 
+              VerticalOptions="Center" 
+              Padding="15,0">
+
+            <Label Text="Page Principal" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="Black" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="Start" />
+        </Grid>
+    </Shell.TitleView>
+
+
+    <Grid RowDefinitions="Auto, Auto, *">
+        
+        <BoxView Grid.Row="0" 
+             HeightRequest="0.5" 
+             BackgroundColor="#EEEEEE" 
+             Margin="20,0"/>
+        
+        <Label Grid.Row="1"
+               Text="Notes Recentes" 
+               FontSize="20" 
+               Padding="10"
+               FontAttributes="Bold" 
+               TextColor="Black" 
+               VerticalTextAlignment="Center" 
+               HorizontalOptions="Start" />
+        
+        
+        <CollectionView Grid.Row="2" 
+                        ItemsSource="{Binding Notes}"
+                        SelectionMode="None"
+                        Margin="20,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0, 15" RowDefinitions="Auto, Auto">
+                        <Label Grid.Row="0" 
+                               Text="{Binding Title}" 
+                               FontSize="18" 
+                               FontAttributes="Bold" 
+                               TextColor="Black" />
+                        <BoxView Grid.Row="1" 
+                                 HeightRequest="0.5" 
+                                 BackgroundColor="#EEEEEE" 
+                                 VerticalOptions="End" 
+                                 Margin="0,15,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <BoxView Grid.Row="3" 
+             HeightRequest="0.5" 
+             BackgroundColor="#EEEEEE" 
+             Margin="20,0"
+             VerticalOptions="Start"/>
+    </Grid>
+
 
 </ContentPage>

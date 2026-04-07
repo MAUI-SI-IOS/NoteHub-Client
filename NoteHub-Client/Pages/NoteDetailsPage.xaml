@@ -5,16 +5,32 @@
              xmlns:viewModels="clr-namespace:NoteHub_Client.ViewModels"
              x:Class="NoteHub_Client.NoteDetailsPage"
              Title="NoteDetailsPage">
-    
-    <!--<ContentPage.BindingContext>
-        <viewModels:NoteDetailsViewModel />
-    </ContentPage.BindingContext>-->
-   
+    <Shell.TitleView>
+        <Grid FlowDirection="RightToLeft" 
+              VerticalOptions="Center" 
+              Padding="15,0">
+
+            <Label Text="Detail de Note" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="Black" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalOptions="Start" />
+        </Grid>
+    </Shell.TitleView>
+
     <VerticalStackLayout>
+        <BoxView Grid.Row="0" 
+            HeightRequest="0.5" 
+            BackgroundColor="#EEEEEE" 
+            Margin="20,0"/>
+        
         <Label x:Name="ErrorAnchor"
             HeightRequest="0" 
             InputTransparent="True" 
             VerticalOptions="Start"/>
+
+        
         <!-- Header with Title and Mode Toggle -->
         <HorizontalStackLayout Padding="10">
             <Label Text="Title:" FontAttributes="Bold" VerticalOptions="Center" />
