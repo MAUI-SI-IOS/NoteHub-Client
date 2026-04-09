@@ -16,14 +16,14 @@ public class NoteHubDatabaseAccess
         await dbConnection.CreateTableAsync<NoteEntity>();
     }
 
-    public async Task<NoteEntity> GetNoteAsyncByTitle(string title)
+    public async Task<List<NoteEntity>> GetNoteListByTitle(string title)
     {
         await Init();
 
         Debug.Assert(dbConnection != null, nameof(dbConnection) + " != null");
         var result = await dbConnection.Table<NoteEntity>()
             .Where(x => x.Title == title)
-            .FirstOrDefaultAsync();
+            .ToListAsync();
 
         return result;
     }

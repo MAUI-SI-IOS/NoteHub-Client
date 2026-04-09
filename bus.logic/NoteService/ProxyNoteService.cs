@@ -34,7 +34,7 @@ namespace bus.logic.NoteService
         //--------------------//
         public async Task<Result<List<INote>, NoteServiceException>> SearchNote(string token)
         => await _zip.SearchNote(token);
-        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
+        public async Task<Result<List<INote>, NoteServiceException>> GetNoteByTitle(string title)
         => await _zip.GetNoteByTitle(title);
         public async Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note)
         => await _zip.CreateUpdateNote(id, title, note);

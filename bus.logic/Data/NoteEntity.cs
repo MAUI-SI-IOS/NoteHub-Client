@@ -7,7 +7,7 @@ public class NoteEntity : INote
 {
     [PrimaryKey, AutoIncrement]
     public long? Id { get; set; }
-    [Column("title"), Unique]
+    [Column("title")]
     public string Title { get; set; }
     [Column("raw_content")]
     public string RawContent { get; set; }
