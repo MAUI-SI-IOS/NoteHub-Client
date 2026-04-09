@@ -28,7 +28,7 @@ namespace NoteHub_Client
             {
                 var config = container.GetRequiredService<INoteHubConfigService>();
                 var local  = new LocalNoteService();
-                var remote = new ServerNoteService(config.Client);              
+                var remote = new ServerNoteService(config);              
                 return new ProxyNoteService(local,remote);
             });
             builder.Services.AddTransient<SearchNoteViewModel>();
