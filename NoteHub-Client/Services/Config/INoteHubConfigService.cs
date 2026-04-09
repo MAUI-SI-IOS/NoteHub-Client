@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using bus.logic.service;
 
 namespace NoteHub_Client.Services.Config
 {
-    public interface INoteHubConfigService
+    public interface INoteHubConfigService : ServerNoteService.ServerUrlObersvable
     {
-        string LocalDb { get; }
-        string ServerUrl { set; }
-        HttpClient Client { get; }
+        string? ServerUrl { get; set; }
+        void Subscribe(Action<INoteHubConfigService> updater);
     }
 }
