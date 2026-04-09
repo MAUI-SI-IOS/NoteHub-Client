@@ -29,9 +29,9 @@ namespace bus.logic.service
                         .DoQuery();            
         }
 
-        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
+        public async Task<Result<List<INote>, NoteServiceException>> GetNoteByTitle(string title)
         {
-            return await new GetStrategy<INote>(_client, $"note/title/{title}", _options)
+            return await new GetStrategy<List<INote>>(_client, $"note/title/{title}", _options)
                         .DoQuery();
            
         }

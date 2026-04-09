@@ -34,7 +34,7 @@ namespace bus.logic.NoteService
                 .TriggerErrAsync(async(ex)=> { if (ex.code < 10) OnStatusChanged.Invoke(true); })
                 .MapErrAsync(async (ex) => await A.SearchNote(token));
         }
-        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
+        public async Task<Result<List<INote>, NoteServiceException>> GetNoteByTitle(string title)
         {
             return await B.GetNoteByTitle(title)
                 .TriggerErrAsync(async (ex) => { if (ex.code < 10) OnStatusChanged.Invoke(true); })

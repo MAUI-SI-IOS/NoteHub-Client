@@ -36,17 +36,17 @@ namespace bus.logic.NoteService
             }
         }
 
-        public async Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title)
+        public async Task<Result<List<INote>, NoteServiceException>> GetNoteByTitle(string title)
         {
             try
             {
-                var result = await dbAccess.GetNoteAsyncByTitle(title);
+                var result = await dbAccess.GetNoteListByTitle(title);
 
-                return Result<INote, NoteServiceException>.Success(result);
+                return Result<List<INote>, NoteServiceException>.Success(result.Select(n => n as INote).ToList());
             }
             catch (Exception ex)
             {
-                return Result<INote, NoteServiceException>.Failure(new NoteServiceException(-1, ex.Message));
+                return Result<List<INote>, NoteServiceException>.Failure(new NoteServiceException(-1, ex.Message));
             }
         }
         public async Task<Result<List<INote>, NoteServiceException>> SearchNote(string token)

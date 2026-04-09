@@ -15,7 +15,7 @@ namespace bus.logic.NoteService
     {
         Task<Result<List<INote>, NoteServiceException>> SearchNote(string token);
 
-        Task<Result<INote, NoteServiceException>> GetNoteByTitle(string title);
+        Task<Result<List<INote>, NoteServiceException>> GetNoteByTitle(string title);
         Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note);
 
         Task<bool> Ping();
