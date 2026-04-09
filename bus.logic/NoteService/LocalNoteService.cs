@@ -9,6 +9,8 @@ namespace bus.logic.NoteService
         NoteHubDatabaseAccess? access = null
     ): INoteService {
 
+        public bool IsOK => true;
+
         private NoteHubDatabaseAccess dbAccess = access ?? new NoteHubDatabaseAccess();
 
         public async Task<Result<INote, NoteServiceException>> CreateUpdateNote(long? id, string title, string note)
