@@ -15,6 +15,7 @@ namespace bus.logic.NoteService
         INoteService A; 
         INoteService B;
         public event Action<bool> OnStatusChanged;
+        public bool IsOK => A.IsOK && B.IsOK;
         public SoftZip(INoteService a, INoteService b)
         {
             A = a;
